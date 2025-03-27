@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +28,37 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# For current version
+# CORS_ALLOWED_ORIGINS = [
+#   when set CORS_ALLOW_ALL_ORIGINS=True,  CORS_ALLOWED_ORIGINS won't work
+#   when set CORS_ALLOWED_ORIGINS include item in "hostname:ip_port" format, CORS_ALLOWED_ORIGINS won't. WTF?! Maybe bugs?
+CORS_ALLOW_ALL_ORIGINS=True
+CSRF_COOKIE_SAMESITE=None
+CORS_PREFLIGHT_MAX_AGE = 10
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8080",
+#     "http://127.0.0.1:8080",
+#     "http://127.0.0.1",
+#     "http://localhost",
+# ]
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "my-custom-header",
+)
 
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,11 +70,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "djm.urls"

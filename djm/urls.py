@@ -20,5 +20,6 @@ from . import views  # Import views from the current app
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("backup/api/login/", views.login_api_backup, name="login_api_backup"),  # Removed leading slash
     path("api/login/", views.login_api, name="login_api"),  # Removed leading slash
 ]

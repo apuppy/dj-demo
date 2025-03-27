@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 @csrf_exempt
-def login_api(request):
+def login_api_backup(request):
     if request.method == "OPTIONS":
         # print request headers here
         print("\n================ begin request headers")
@@ -50,3 +50,28 @@ def login_api(request):
         return response
 
     return HttpResponse(status=405)  # Method not allowed
+
+@csrf_exempt
+def login_api(request):
+    # print request headers here
+    print("\n================ begin request headers")
+    print(json.dumps(dict(request.headers), indent=4))
+    print("================ end request headers")
+
+    # Sample login data
+    data = {
+        "user_id": 1,
+        "username": "sample_user",
+        "email": "sample_user@example.com",
+        "token": "sample_token_12345"
+    }
+
+    response = JsonResponse(data)
+    # response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Origin"] = "http://localhost:8080"
+
+    # print response headers here
+    print("================ begin response headers")
+    print(json.dumps(dict(response.headers), indent=4))
+    print("================ end response headers")
+    return response
