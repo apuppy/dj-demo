@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from . import views  # Import views from the current app
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/login/", views.login_api, name="login_api"),  # Removed leading slash
 ]
